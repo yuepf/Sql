@@ -1,0 +1,6 @@
+SELECT top 1 t4.end_time ,t1t2t3.* from crm_wy_fee_init t4 right JOIN
+        (SELECT t3.name,t1t2.* from crm_owner t3 right JOIN
+        (SELECT t2.owner_id,t1.*from crm_owner_residence t2 left JOIN 
+        crm_residence t1 on t2.residence_code = t1.code WHERE t1.code=#{code})t1t2 //首先通过全连接查询，通过给出的条件获得t2的owner_id；
+        on t3.id = t1t2.owner_id)t1t2t3 //然后通过之前查出的owner_id，通过左连接查询出t3的name；
+        ON t4.residence_code = t1t2t3.code and t4.kjkm='1101' //最后通过条件查询出在t4表中和之前三张表子查询获得的数据；
